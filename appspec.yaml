@@ -1,0 +1,10 @@
+version: 1.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:iam::317225729511:role/ecsTaskExecutionRole/movies-factory:18"
+        LoadBalancerInfo:
+          ContainerName: "movies-factory"
+          ContainerPort: "8000"
+        PlatformVersion: "LATEST"

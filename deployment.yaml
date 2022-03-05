@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  generation: 1
+  labels:
+    app: moveis-factory
+  name: moveis-factory
+  namespace: default
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: moveis-factory
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: moveis-factory
+    spec:
+      containers:
+      - image: muradshahin/movies-factory-movies-factory:0.0.7-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: movies-factory-movies-factory
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+        livenessProbe:
+          httpGet:
+            port: 8000
+            path: /health  
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: moveis-factory 
+  name: moveis-factory
+  namespace: default
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: moveis-factory
+  sessionAffinity: None
+  type: LoadBalancer
+

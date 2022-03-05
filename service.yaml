@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2022-01-19T18:47:23Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app: moveis-factory
+  name: moveis-factory
+  namespace: default
+  resourceVersion: "3138"
+  uid: 26474f3a-c1aa-46ba-9aaa-89869bb1b5b4
+spec:
+  clusterIP: 10.84.5.1
+  clusterIPs:
+  - 10.84.5.1
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 32758
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: moveis-factory
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 35.223.206.179
